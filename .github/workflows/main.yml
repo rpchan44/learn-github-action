@@ -69,7 +69,7 @@ jobs:
           IMAGE_TAG=${{ steps.meta.outputs.tags }}
           
           # Assuming your Kustomize overlay is in 'overlays/dev/apps.yaml'
-          sed -i "s|image: rpchan44/nodejs-app:.*|image: rpchan44/nodejs-app:$IMAGE_TAG|" overlays/dev/apps.yaml
+          sed -i "s|image: rpchan44/webapp:v1.0-dev:.*|image: rpchan44/webapp:v1.0-dev:$IMAGE_TAG|" overlays/dev/apps.yaml
 
       # Step 9: Commit the changes to the Kustomize repository
       - name: Commit changes to Kustomize repository
