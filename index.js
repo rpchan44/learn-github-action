@@ -2,10 +2,10 @@ var express = require('express');
 var app = express();
 
 app.get('/', function (req, res) {
-    res.send('{ "response": "Hello From Test" }');
+    res.send('{ "response": "My Super Application" }');
 });
 
-app.get('/will', function (req, res) {
+app.get('/test', function (req, res) {
     res.send('{ "response": "Hello World" }');
 });
 app.get('/ready', function (req, res) {
