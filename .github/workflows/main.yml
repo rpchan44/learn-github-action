@@ -60,13 +60,13 @@ jobs:
         with:
           repository: rpchan44/learn-kustomize
           token: ${{ secrets.GH_TOKEN }}
-          path: 'customization'
+          path: ''
           show-progress: true
       # Step 7a: List check out files from repository  
       - name: Trying to list kustomization.yaml
         run: |
           echo "Checking ....."
-          ls -alh *
+          ls -alh overlayys/dev/*
 
       # Step 8: Update kustomization.yaml with the new image tag
       - name: Update Kustomize manifest with new image
