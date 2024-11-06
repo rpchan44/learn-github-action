@@ -63,7 +63,7 @@ jobs:
           IMAGE_TAG=$(echo "${{ steps.meta.outputs.tags }}")
           
           # Update the apps.yaml file with the correct image tag using sed
-          sed -i "s|version=.*|version=${{ github.sha }}|" overlays/dev/kustomization.yaml
+          sed -i "s|version=.*|version=$IMAGE_TAG-${{ github.sha }}|" overlays/dev/kustomization.yaml
           cat overlays/dev/kustomization.yaml
       
             
@@ -71,7 +71,7 @@ jobs:
         run: |
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
-          git add overlays/dev/apps.yaml
+          git add overlays/dev/kustomization.yaml
           git commit -m "Update Docker image tag in apps.yaml"
           git push origin main
         env:
