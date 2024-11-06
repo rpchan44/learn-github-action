@@ -66,13 +66,14 @@ jobs:
           fi
 
           sed -i "s|image: rpchan44/webapp:v1.0-dev:.*|image: rpchan44/webapp:v1.0-dev:$IMAGE_TAG|" overlays/dev/apps.yaml
-          #echo "Debug Image : rpchan44/webapp:v1.0-dev:$IMAGE_TAG"
+          echo "Debugging apps.yaml"
+          cat  overlays/dev/apps.yaml | grep image
       - name: Commit changes to Kustomize repository
         run: |
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
           git add overlays/dev/apps.yaml
-          git commit -m "Update Docker image tag in apps.yaml.yaml"
+          git commit -m "Update Docker image tag in apps.yaml"
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
