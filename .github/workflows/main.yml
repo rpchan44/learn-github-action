@@ -60,7 +60,7 @@ jobs:
         with:
           repository: rpchan44/learn-kustomize
           token: ${{ secrets.GH_TOKEN }}
-          path: overlays  # Check out into a subdirectory
+          path: overlays/dev  # Check out into a subdirectory
 
       # Step 8: Update kustomization.yaml with the new image tag
       - name: Update Kustomize manifest with new image
@@ -69,7 +69,7 @@ jobs:
           IMAGE_TAG=${{ steps.meta.outputs.tags }}
           
           # Assuming your Kustomize overlay is in the 'kustomize-repo/k8s/overlays/dev/kustomization.yaml'
-          sed -i "s|newTag: .*|newTag: $IMAGE_TAG|" ./kustomize-repo/k8s/overlays/dev/kustomization.yaml
+          sed -i "s|newTag: .*|newTag: $IMAGE_TAG|" kustomization.yaml
 
       # Step 9: Commit the changes to the Kustomize repository
       - name: Commit changes to Kustomize repository
