@@ -56,7 +56,7 @@ jobs:
       # Step 7: Check out the Kustomize repository
       
       - name: Check out the Kustomize repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           repository: rpchan44/learn-kustomize
           token: ${{ secrets.GH_TOKEN }}
@@ -65,7 +65,7 @@ jobs:
       - name: Trying to list kustomization.yaml
         run: |
           echo "Checking ....."
-          ls -alh kustomization.yaml
+          ls -alh *
 
       # Step 8: Update kustomization.yaml with the new image tag
       - name: Update Kustomize manifest with new image
