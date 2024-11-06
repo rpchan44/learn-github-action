@@ -73,8 +73,8 @@ jobs:
           echo "Updating kustomization.yaml to use the latest image tag"
           IMAGE_TAG=${{ steps.meta.outputs.tags }}
           
-          # Assuming your Kustomize overlay is in the 'kustomize-repo/k8s/overlays/dev/kustomization.yaml'
-          sed -i "s|version=.*|version=$IMAGE_TAG|" dev/kustomization.yaml
+          # Assuming your Kustomize overlay is in the current directory 'overlays/dev/kustomization.yaml'
+          sed -i "s|version=.*|version=$IMAGE_TAG|" overlays/dev/kustomization.yaml
 
       # Step 9: Commit the changes to the Kustomize repository
       - name: Commit changes to Kustomize repository
