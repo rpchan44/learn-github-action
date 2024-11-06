@@ -58,7 +58,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: rpchan44/learn-kustomize
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GH_TOKEN }}
           path: overlays/dev  # Check out into a subdirectory
 
       # Step 8: Update kustomization.yaml with the new image tag
@@ -79,6 +79,6 @@ jobs:
           git commit -m "Update Docker image tag in kustomization.yaml"
           git push origin main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}  # GitHub token for authentication
 
     
