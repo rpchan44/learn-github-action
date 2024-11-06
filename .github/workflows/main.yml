@@ -60,7 +60,7 @@ jobs:
         with:
           repository: rpchan44/learn-kustomize
           token: ${{ secrets.GH_TOKEN }}
-          path: overlays/dev  # Check out into a subdirectory
+          path: overlays/dev/kustomization.yaml  # Check out into a subdirectory
       # Step 7a: List check out files from repository  
       - name: Trying to list kustomization.yaml
         run: |
