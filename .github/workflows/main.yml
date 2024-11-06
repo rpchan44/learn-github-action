@@ -48,8 +48,8 @@ jobs:
           context: .
           push: true
           tags: |
-            rpchan44/nodejs-app:latest
-            rpchan44/nodejs-app:${{ github.sha }}
+            rpchan44/webapp:v1.0-dev
+            rpchan44/webapp:v1.0-dev:${{ github.sha }}
             ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
