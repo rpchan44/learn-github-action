@@ -66,7 +66,7 @@ jobs:
           fi
 
           sed -i "s|image: rpchan44/webapp:v1.0-dev:.*|image: rpchan44/webapp:v1.0-dev:$IMAGE_TAG|" overlays/dev/apps.yaml
-
+          echo "Debug Image : rpchan44/webapp:v1.0-dev:$IMAGE_TAG"
       - name: Commit changes to Kustomize repository
         run: |
           git config --global user.name "rpchan44"
