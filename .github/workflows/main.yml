@@ -65,7 +65,7 @@ jobs:
             IMAGE_TAG=$(echo "$IMAGE_TAG" | sed 's/:.*$//')  # Keep only the first part (repo:tag)
           fi
 
-          sed -i "s|image: rpchan44/webapp:v1.0-dev.*|image: rpchan44/webapp:v1.0-dev:$IMAGE_TAG|" overlays/dev/apps.yaml
+          sed -i "s|image: rpchan44/webapp:v1.0-dev:.*|image: rpchan44/webapp:v1.0-dev:$IMAGE_TAG|" overlays/dev/apps.yaml
           #echo "Debug Image : rpchan44/webapp:v1.0-dev:$IMAGE_TAG"
       - name: Commit changes to Kustomize repository
         run: |
