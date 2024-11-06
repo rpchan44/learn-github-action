@@ -75,9 +75,9 @@ jobs:
       # Step 9: Commit the changes to the Kustomize repository
       - name: Commit changes to Kustomize repository
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@githu"
-          git add ./kustomize-repo/k8s/overlays/dev/kustomization.yaml
+          git config --global user.name "rpchan44"
+          git config --global user.email "ronaldopchan@outlook.com"
+          git add overlays/dev/kustomization.yaml
           git commit -m "Update Docker image tag in kustomization.yaml"
           git push origin main
         env:
