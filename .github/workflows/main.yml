@@ -68,7 +68,7 @@ jobs:
           fi
       
           # Update the apps.yaml file with the correct image tag using sed
-          sed -i '' "s|image: rpchan44/webapp:v1.0-dev:.*|image: rpchan44/webapp:v1.0-dev:${IMAGE_TAG}|" overlays/dev/apps.yaml
+          sed -i "s|image: rpchan44/webapp:v1.0-dev:.*|image: rpchan44/webapp:v1.0-dev:${{ github.sha }}|" overlays/dev/apps.yaml
       
           echo "Debugging apps.yaml"
           cat overlays/dev/apps.yaml | grep image
