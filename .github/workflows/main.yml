@@ -71,8 +71,8 @@ jobs:
         run: |
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
-          git add overlays/dev/kustomization.yaml
-          git commit -m "Update Docker image tag in kustomization.yaml"
+          git add overlays/dev/apps.yaml
+          git commit -m "Update Docker image tag in apps.yaml.yaml"
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
