@@ -60,12 +60,12 @@ jobs:
         with:
           repository: rpchan44/learn-kustomize
           token: ${{ secrets.GH_TOKEN }}
-          path: overlays  # Check out into a subdirectory
+          path: overlays/dev  # Check out into a subdirectory
       # Step 7a: List check out files from repository  
-      - name: Listing all files
+      - name: Trying to list kustomization.yaml
         run: |
-          echo "Checking Files ....."
-          ls -alh *
+          echo "Checking ....."
+          ls -alh kustomization.yaml
 
       # Step 8: Update kustomization.yaml with the new image tag
       - name: Update Kustomize manifest with new image
@@ -74,7 +74,7 @@ jobs:
           IMAGE_TAG=${{ steps.meta.outputs.tags }}
           
           # Assuming your Kustomize overlay is in the current directory 'overlays/dev/kustomization.yaml'
-          sed -i "s|version=.*|version=$IMAGE_TAG|" overlays/dev/kustomization.yaml
+          sed -i "s|version=.*|version=$IMAGE_TAG|" kustomization.yaml
 
       # Step 9: Commit the changes to the Kustomize repository
       - name: Commit changes to Kustomize repository
