@@ -66,7 +66,8 @@ jobs:
       - name: Trying to list kustomization.yaml
         run: |
           echo "Checking ....."
-          ls -alh overlayys/dev/*
+          ls -alh *
+          ls -alh overlays/dev/*
 
       # Step 8: Update kustomization.yaml with the new image tag
       - name: Update Kustomize manifest with new image
