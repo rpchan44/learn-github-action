@@ -56,11 +56,12 @@ jobs:
       # Step 7: Check out the Kustomize repository
       
       - name: Check out the Kustomize repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: rpchan44/learn-kustomize
           token: ${{ secrets.GH_TOKEN }}
-          path: overlays/dev/kustomization.yaml  # Check out into a subdirectory
+          path: 'customization'
+          show-progress: true
       # Step 7a: List check out files from repository  
       - name: Trying to list kustomization.yaml
         run: |
