@@ -62,13 +62,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           path: ''
           show-progress: true
-      # Step 7a: List check out files from repository  
-      - name: Trying to list kustomization.yaml
-        run: |
-          echo "Checking ....."
-          ls -alh *
-          ls -alh overlays/dev/*
-
+      
       # Step 8: Update kustomization.yaml with the new image tag
       - name: Update Kustomize manifest with new image
         run: |
@@ -76,7 +70,7 @@ jobs:
           IMAGE_TAG=${{ steps.meta.outputs.tags }}
           
           # Assuming your Kustomize overlay is in the current directory 'overlays/dev/kustomization.yaml'
-          sed -i "s|version=.*|version=$IMAGE_TAG|" kustomization.yaml
+          sed -i "s|version=.*|version=$IMAGE_TAG|" overlays/dev/kustomization.yaml
 
       # Step 9: Commit the changes to the Kustomize repository
       - name: Commit changes to Kustomize repository
