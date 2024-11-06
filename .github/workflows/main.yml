@@ -58,7 +58,7 @@ jobs:
       - name: Check out the Kustomize repository
         uses: actions/checkout@v4
         with:
-          repository: rpchan44/learn-kustomize.git
+          repository: rpchan44/learn-kustomize
           token: ${{ secrets.GH_TOKEN }}
           path: overlays  # Check out into a subdirectory
 
