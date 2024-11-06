@@ -61,6 +61,11 @@ jobs:
           repository: rpchan44/learn-kustomize
           token: ${{ secrets.GH_TOKEN }}
           path: overlays/dev  # Check out into a subdirectory
+      # Step 7a: List check out files    
+      - name: List contents of the Kustomize repository
+        run: |
+          echo "Listing contents of the Kustomize repository..."
+          ls -R *
 
       # Step 8: Update kustomization.yaml with the new image tag
       - name: Update Kustomize manifest with new image
