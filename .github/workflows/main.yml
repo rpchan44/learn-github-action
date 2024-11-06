@@ -1,4 +1,4 @@
-name: Publish Docker image
+name: Publish Docker image and update Kustomize
 
 on:
   push:
@@ -6,28 +6,33 @@ on:
 
 jobs:
   push_to_registry:
-    name: Push Docker image to Docker Hub
+    name: Push Docker image to Docker Hub and Update Kustomize
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out the repo
+      # Step 1: Check out the code from the current repository
+      - name: Check out the repo with Dockerfile
         uses: actions/checkout@v3
 
+      # Step 2: Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # Step 3: Extract metadata (tags, labels) for Docker
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@v3
         with:
           images: rpchan44/nodejs-app
 
-      - name: Log Docker version (optional but useful for debugging)
+      # Step 4: Log Docker version (optional but useful for debugging)
+      - name: Log Docker version
         run: docker --version
 
+      # Step 5: Cache Docker layers (optional)
       - name: Cache Docker layers
         uses: actions/cache@v3
         with:
@@ -36,6 +41,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      # Step 6: Build and push Docker image to Docker Hub
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
@@ -46,3 +52,33 @@ jobs:
             rpchan44/nodejs-app:${{ github.sha }}
             ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      # Step 7: Check out the Kustomize repository
+      - name: Check out the Kustomize repository
+        uses: actions/checkout@v3
+        with:
+          repository: rpchan44/learn-kustomize
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: overlays/dev  # Check out into a subdirectory
+
+      # Step 8: Update kustomization.yaml with the new image tag
+      - name: Update Kustomize manifest with new image
+        run: |
+          echo "Updating kustomization.yaml to use the latest image tag"
+          IMAGE_TAG=${{ steps.meta.outputs.tags }}
+          
+          # Assuming your Kustomize overlay is in the 'kustomize-repo/k8s/overlays/dev/kustomization.yaml'
+          sed -i "s|newTag: .*|newTag: $IMAGE_TAG|" ./learn-kustomize/overlays/dev/kustomization.yaml
+
+      # Step 9: Commit the changes to the Kustomize repository
+      - name: Commit changes to Kustomize repository
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "ronaldopchan@outlook.com"
+          git add ./learn-kustomize/overlays/dev/kustomization.yaml
+          git commit -m "Update Docker image tag in kustomization.yaml"
+          git push origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # GitHub token for authentication
+
+    
