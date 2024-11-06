@@ -66,7 +66,8 @@ jobs:
           #sed -i "s|version=.*|version=$IMAGE_TAG-${{ github.sha }}|" overlays/dev/kustomization.yaml
           #cat overlays/dev/kustomization.yaml
           sed -i "s|image=rpchan44/webapp:v1.0-dev@sha256:.*|image=webapp:v1.0-dev@sha256:${{ github.sha }}|" overlays/dev/apps.yaml
-            
+          cat overlays/dev/apps.yaml
+          
       - name: Commit changes to Kustomize repository
         run: |
           git config --global user.name "rpchan44"
