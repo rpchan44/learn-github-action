@@ -3,6 +3,8 @@ FROM python:3.9-slim
 
 # Set the working directory in the container
 WORKDIR /app
+ENV FLASK_RUN_PORT=80
+ENV FLASK_RUN_HOST=0.0.0.0
 
 # Copy the config file into the container at build time
 COPY config.properties /app/config.properties
@@ -12,7 +14,7 @@ COPY app.py /app/app.py
 # Install any needed dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 5000
+EXPOSE map[80/tcp:{}]
 
 # Set environment variable based on the properties file
 # (You may want to modify app.py to read directly from the file)
