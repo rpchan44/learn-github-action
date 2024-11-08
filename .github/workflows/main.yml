@@ -42,15 +42,13 @@ jobs:
           context: .
           push: true
           tags: |
-            rpchan44/webapp:v1.0-dev
-            rpchan44/webapp:v1.0-dev-${{ github.sha }}
-            rpchan44/webapp:${{ github.sha }}
+            rpchan44/webapp-dev:latest
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Check out the Kustomize repository
         uses: actions/checkout@v4
         with:
-          repository: rpchan44/learn-kustomize
+          repository: rpchan44/k8s-control
           token: ${{ secrets.GH_TOKEN }}
           path: ''
           show-progress: true
