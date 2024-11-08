@@ -23,7 +23,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: rpchan44/webapp:v1.0-dev
+          images: rpchan44/webapp-dev
 
       - name: Log Docker version
         run: docker --version
