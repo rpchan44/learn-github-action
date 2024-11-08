@@ -19,7 +19,9 @@ app = Flask(__name__)
 # Load configuration from config.properties (optional)
 config_path = os.getenv('CONFIG_FILE_PATH', '/app/config.properties')
 config = load_config(config_path)
-app_name = config.get('app_name', 'Default Flask App')
+app_name = config.get('app_name', 'MyApp')
+app_title = config.get('app_title', 'Docker Image')
+app_message = config.get('app_message', 'Welcome to the jungle!')
 
 # Get the hostname of the container
 hostname = socket.gethostname()
@@ -29,11 +31,11 @@ def home():
     # Render a simple HTML page with the app name and hostname of the container
     return render_template_string("""
         <html>
-            <head><title>{{ app_name }}</title></head>
+            <head><title>{{ app_title }}</title></head>
             <body>
                 <center>
                     <h1><img src="https://getcomposer.org/img/logo-composer-transparent5.png"></img></h1>
-                    <h1>Welcome to {{ app_name }}</h1>
+                    <h1>{{ app_message }}</h1>
                     <p>Hello world! served from {{ hostname }}</p>
                 </center>
             </body>
