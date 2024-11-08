@@ -12,7 +12,7 @@ COPY app.py /app/app.py
 # Install any needed dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 80
+EXPOSE 3000
 
 # Set environment variable based on the properties file
 # (You may want to modify app.py to read directly from the file)
