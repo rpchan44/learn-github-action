@@ -31,6 +31,7 @@ def home():
         <html>
             <head><title>{{ app_name }}</title></head>
             <body>
+                <h1><img src="https://getcomposer.org/img/logo-composer-transparent5.png"></img></h1>
                 <h1>Welcome to {{ app_name }}</h1>
                 <p>Hello world! served from {{ hostname }}</p>
             </body>
