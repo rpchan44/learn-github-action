@@ -15,7 +15,6 @@ def load_config(config_file):
 
 # Initialize Flask app
 app = Flask(__name__)
-port = int(os.getenv("PORT", 80))
 
 # Load configuration from config.properties (optional)
 config_path = os.getenv('CONFIG_FILE_PATH', '/app/config.properties')
@@ -39,5 +38,5 @@ def home():
     """, app_name=app_name, hostname=hostname)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=3000)
 
