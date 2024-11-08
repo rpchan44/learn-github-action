@@ -1,4 +1,4 @@
-name: Publish Docker image and update Kustomize
+name: Publish Docker image and update k8s manifest
 
 on:
   push:
