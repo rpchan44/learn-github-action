@@ -68,7 +68,7 @@ jobs:
           IMAGE_TAG=$(echo "${{ steps.meta.outputs.tags }}")
           
           # Update the apps.yaml file with the correct image tag using sed
-         sed -i "s/webapp-dev:.*/webapp-dev:$VERSION/g" overlays/dev/apps.yaml
+          sed -i "s/webapp-dev:.*/webapp-dev:$VERSION/g" overlays/dev/apps.yaml
           
       - name: Commit changes to Kustomize repository
         run: |
