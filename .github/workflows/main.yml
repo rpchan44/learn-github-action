@@ -39,22 +39,18 @@ jobs:
       - name: Get version number (increment commit count)
         id: version
         run: |
-          # Check if there is a tag (e.g., v1.0.0)
-          VERSION=$(git describe --tags --abbrev=0)
+          # Check if there are any tags (e.g., v1.0.0)
+          TAG=$(git describe --tags --abbrev=0 2>/dev/null)
           
-          # If no tag exists, start with v1.0.0
-          if [ -z "$VERSION" ]; then
-            VERSION="v1.0.0"
+          # If no tag exists, use commit count as version
+          if [ -z "$TAG" ]; then
+            VERSION="v$(git rev-list --count HEAD)"
+          else
+            # Otherwise, increment the tag (e.g., v1.0.0 -> v1.0.1)
+            BASE_VERSION=${TAG:1}
+            VERSION_NUMBER=$(echo $BASE_VERSION | awk -F. -v OFS=. '{$NF++;print}')
+            VERSION="v$VERSION_NUMBER"
           fi
-      
-          # Increment the version number (i.e., v1.0.0 -> v1.0.1)
-          BASE_VERSION=${VERSION:1}
-          VERSION_NUMBER=$(echo $BASE_VERSION | awk -F. -v OFS=. '{$NF++;print}')
-          VERSION="v$VERSION_NUMBER"
-      
-          # Export as an environment variable
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Docker image will be tagged with: $VERSION"
                 
       - name: Build Docker image
         run: |
@@ -75,9 +71,6 @@ jobs:
       - name: Update Kustomize manifest with new image
         run: |
           echo "Updating kustomization.yaml to use the latest image tag"
-          
-          # Get the first tag from metadata (if multiple tags are present)
-          IMAGE_TAG=$(echo "${{ steps.meta.outputs.tags }}")
           
           # Update the apps.yaml file with the correct image tag using sed
           sed -i "s/webapp-dev:.*/webapp-dev:$VERSION/g" overlays/dev/apps.yaml
