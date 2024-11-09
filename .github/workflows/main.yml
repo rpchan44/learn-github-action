@@ -74,7 +74,7 @@ jobs:
         run: |
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
-          git add overlays/dev/kustomization.yaml
+          git add overlays/dev/apps.yaml
           git commit -m "Release webapp-dev:$VERSION"
           git push origin main
         env:
