@@ -39,26 +39,15 @@ jobs:
       - name: Get version number (increment commit count)
         id: version
         run: |
-          # Check if there are any tags (e.g., v1.0.0)
-          TAG=$(git describe --tags --abbrev=0 2>/dev/null)
-          
-          # If no tag exists, use commit count as version
-          if [ -z "$TAG" ]; then
-            VERSION="v$(git rev-list --count HEAD)"
-          else
-            # Otherwise, increment the tag (e.g., v1.0.0 -> v1.0.1)
-            BASE_VERSION=${TAG:1}
-            VERSION_NUMBER=$(echo $BASE_VERSION | awk -F. -v OFS=. '{$NF++;print}')
-            VERSION="v$VERSION_NUMBER"
-          fi
+         TAG=latest-${{ github.run_number }}
                 
       - name: Build Docker image
         run: |
-          docker build -t rpchan44/webapp-dev:$VERSION .
+          docker build -t rpchan44/webapp-dev:$TAG .
         
       - name: Push Docker image to DockerHub
         run: |
-          docker push rpchan44/webapp-dev:$VERSION
+          docker push rpchan44/webapp-dev:$TAG
 
       - name: Check out the Kustomize repository
         uses: actions/checkout@v4
@@ -73,7 +62,7 @@ jobs:
           echo "Updating kustomization.yaml to use the latest image tag"
           
           # Update the apps.yaml file with the correct image tag using sed
-          sed -i "s/webapp-dev:.*/webapp-dev:$VERSION/g" overlays/dev/apps.yaml
+          sed -i "s/webapp-dev:.*/webapp-dev:$TAG/g" overlays/dev/apps.yaml
           
       - name: Commit changes to Kustomize repository
         run: |
