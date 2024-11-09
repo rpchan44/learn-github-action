@@ -76,14 +76,14 @@ jobs:
           echo "Updating kustomization.yaml to use the latest image tag"
           
           # Update the apps.yaml file with the correct image tag using sed
-          sed -i "s/webapp-dev:.*/webapp-dev:$TAG/g" overlays/dev/apps.yaml
+          sed -i "s/webapp-dev:.*/webapp-dev:v$VERSION/g" overlays/dev/apps.yaml
           
       - name: Commit changes to Kustomize repository
         run: |
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
           git add overlays/dev/apps.yaml
-          git commit -m "Release webapp-dev:$VERSION"
+          git commit -m "Release webapp-dev:v$VERSION"
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
