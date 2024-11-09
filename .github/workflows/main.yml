@@ -39,7 +39,7 @@ jobs:
       - name: Get version number (increment commit count)
         id: version
         run: |
-         TAG=latest-${{ github.run_number }}
+         TAG= (${{ github.event.head_commit.timestamp }})
                 
       - name: Build Docker image
         run: |
