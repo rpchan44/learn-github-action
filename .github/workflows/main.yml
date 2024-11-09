@@ -53,7 +53,9 @@ jobs:
   
             # Save the new version to version.txt
             echo $VERSION > $VERSION_FILE
-            echo "version=$VERSION" >> $GITHUB_ENV 
+            echo "version=$VERSION" >> $GITHUB_ENV
+            VERSION="v`$(date +%Y-%m-%d)`"
+
                 
       - name: Build Docker image
         run: |
