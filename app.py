@@ -35,7 +35,6 @@ def home():
             <body>
                 <center>
                     <h1><img src="https://getcomposer.org/img/logo-composer-transparent5.png"></img></h1>
-                    <h1>{{ app_message }}</h1>
                     <p>{{ app_name }} served from {{ hostname }}</p>
                 </center>
             </body>
