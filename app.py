@@ -19,9 +19,9 @@ app = Flask(__name__)
 # Load configuration from config.properties (optional)
 config_path = os.getenv('CONFIG_FILE_PATH', '/app/config.properties')
 config = load_config(config_path)
-app_name = config.get('app_name', 'MyApp')
-app_title = config.get('app_title', 'Docker Image')
-app_message = config.get('app_message', 'Welcome to the jungle!')
+app_name = config.get('app_name', 'app_name')
+app_title = config.get('app_title', 'app_title')
+app_message = config.get('app_message', 'app_message')
 
 # Get the hostname of the container
 hostname = socket.gethostname()
