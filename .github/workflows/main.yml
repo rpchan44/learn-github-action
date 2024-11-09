@@ -85,7 +85,7 @@ jobs:
       # Login to ArgoCD
       - name: Login to ArgoCD
         run: |
-          argocd login https://${{ secrets.ARGOCD_SERVER }} --username ${{ secrets.ARGOCD_USERNAME }} --password ${{ secrets.ARGOCD_PASSWORD }} --insecure
+          argocd login ${{ secrets.ARGOCD_SERVER }} --username ${{ secrets.ARGOCD_USERNAME }} --password ${{ secrets.ARGOCD_PASSWORD }}
   
       # Sync the application
       - name: Sync ArgoCD Application
