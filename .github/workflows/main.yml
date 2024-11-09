@@ -61,7 +61,7 @@ jobs:
           echo "Updating kustomization.yaml to use the latest image tag"
           
           # Update the apps.yaml file with the correct image tag using sed
-          sed -i "s/new-Tag:.*/new-Tag:${{ github.sha }}/g" overlays/dev/apps.yaml
+          sed -i "s/newTag:.*/newTag:${{ github.sha }}/g" overlays/dev/apps.yaml
           
       - name: Commit changes to Kustomize repository
         run: |
