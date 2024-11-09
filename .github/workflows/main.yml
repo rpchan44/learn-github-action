@@ -68,7 +68,7 @@ jobs:
           IMAGE_TAG=$(echo "${{ steps.meta.outputs.tags }}")
           
           # Update the apps.yaml file with the correct image tag using sed
-          sed -i "s|version=.*|version=$IMAGE_TAG-${{ github.sha }}|" overlays/dev/kustomization.yaml
+          sed -i "s|image=webapp-dev:.*|image=webapp-dev:$VERSION|" overlays/dev/apps.yaml
           
           
       - name: Commit changes to Kustomize repository
@@ -76,7 +76,7 @@ jobs:
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
           git add overlays/dev/kustomization.yaml
-          git commit -m "Automation @ Github actions! Update Docker image tag in apps.yaml"
+          git commit -m "Release webapp-dev:$VERSION"
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
