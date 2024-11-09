@@ -39,11 +39,23 @@ jobs:
       - name: Get version number (increment commit count)
         id: version
         run: |
-          # Get the commit count and create a simple version number
-          VERSION=$(git rev-list --count HEAD)
-          echo "VERSION=v$VERSION" >> $GITHUB_ENV
-          echo "Docker image will be tagged with: v$VERSION"
+          # Check if there is a tag (e.g., v1.0.0)
+          VERSION=$(git describe --tags --abbrev=0)
           
+          # If no tag exists, start with v1.0.0
+          if [ -z "$VERSION" ]; then
+            VERSION="v1.0.0"
+          fi
+      
+          # Increment the version number (i.e., v1.0.0 -> v1.0.1)
+          BASE_VERSION=${VERSION:1}
+          VERSION_NUMBER=$(echo $BASE_VERSION | awk -F. -v OFS=. '{$NF++;print}')
+          VERSION="v$VERSION_NUMBER"
+      
+          # Export as an environment variable
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Docker image will be tagged with: $VERSION"
+                
       - name: Build Docker image
         run: |
           docker build -t rpchan44/webapp-dev:$VERSION .
