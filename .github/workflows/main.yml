@@ -36,18 +36,32 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
             
-      - name: Get version number (increment commit count)
-        id: version
+      - name: Setting Version
+        id: increment_version
         run: |
-         TAG= (${{ github.event.head_commit.timestamp }})
+            VERSION_FILE=version.txt
+  
+            # Check if the version.txt file exists
+            if [[ -f "$VERSION_FILE" ]]; then
+              # Read the last version from the file and increment it
+              VERSION=$(cat $VERSION_FILE)
+              VERSION=$((VERSION + 1))
+            else
+              # If version.txt doesn't exist, start with version 1
+              VERSION=1
+            fi
+  
+            # Save the new version to version.txt
+            echo $VERSION > $VERSION_FILE
+            echo "version=$VERSION" >> $GITHUB_ENV 
                 
       - name: Build Docker image
         run: |
-          docker build -t rpchan44/webapp-dev:$TAG .
+          docker build -t rpchan44/webapp-dev:v$VERSION .
         
       - name: Push Docker image to DockerHub
         run: |
-          docker push rpchan44/webapp-dev:$TAG
+          docker push rpchan44/webapp-dev:v$VERSION
 
       - name: Check out the Kustomize repository
         uses: actions/checkout@v4
