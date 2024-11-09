@@ -59,11 +59,11 @@ jobs:
                 
       - name: Build Docker image
         run: |
-          docker build -t rpchan44/webapp-dev:v$VERSION .
+          docker build -t rpchan44/webapp-dev:v${{ env.version }} .
         
       - name: Push Docker image to DockerHub
         run: |
-          docker push rpchan44/webapp-dev:v$VERSION
+          docker push rpchan44/webapp-dev:v${{ env.version }}
 
       - name: Check out the Kustomize repository
         uses: actions/checkout@v4
@@ -78,14 +78,14 @@ jobs:
           echo "Updating kustomization.yaml to use the latest image tag"
           
           # Update the apps.yaml file with the correct image tag using sed
-          sed -i "s/webapp-dev:.*/webapp-dev:v$VERSION/g" overlays/dev/apps.yaml
+          sed -i "s/webapp-dev:.*/webapp-dev:v${{ env.version }}/g" overlays/dev/apps.yaml
           
       - name: Commit changes to Kustomize repository
         run: |
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
           git add overlays/dev/apps.yaml
-          git commit -m "Release webapp-dev:v$VERSION"
+          git commit -m "Release webapp-dev:v${{ env.version }}"
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
