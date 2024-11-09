@@ -38,7 +38,11 @@ jobs:
       
       - name: Build Docker image
         run: |
-          docker build -t rpchan44/webapp-dev:${{ github.sha }} .
+          docker build -t rpchan44/webapp-dev:latest .
+
+      - name: Tag Docker image
+        run: |
+          docker tag rpchan44/webapp-dev:latest rpchan44/webapp-dev:${{ github.sha }}
         
       - name: Push Docker image to DockerHub
         run: |
