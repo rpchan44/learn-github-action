@@ -35,35 +35,14 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-            
-      - name: Setting Version
-        id: increment_version
-        run: |
-            VERSION_FILE=version.txt
-  
-            # Check if the version.txt file exists
-            if [[ -f "$VERSION_FILE" ]]; then
-              # Read the last version from the file and increment it
-              VERSION=$(cat $VERSION_FILE)
-              VERSION=$((VERSION + 1))
-            else
-              # If version.txt doesn't exist, start with version 1
-              VERSION=1
-            fi
-  
-            # Save the new version to version.txt
-            echo $VERSION > $VERSION_FILE
-            echo "version=$VERSION" >> $GITHUB_ENV
-            
-
-                
+      
       - name: Build Docker image
         run: |
-          docker build -t rpchan44/webapp-dev:v${{ env.version }} .
+          docker build -t rpchan44/webapp-dev:${{ github.sha }} .
         
       - name: Push Docker image to DockerHub
         run: |
-          docker push rpchan44/webapp-dev:v${{ env.version }}
+          docker push rpchan44/webapp-dev:${{ github.sha }}
 
       - name: Check out the Kustomize repository
         uses: actions/checkout@v4
@@ -85,7 +64,7 @@ jobs:
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
           git add overlays/dev/apps.yaml
-          git commit -m "Release webapp-dev:v${{ env.version }}"
+          git commit -m "Release webapp-dev:${{ github.sha }}"
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
