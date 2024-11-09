@@ -44,14 +44,13 @@ jobs:
           echo "VERSION=v$VERSION" >> $GITHUB_ENV
           echo "Docker image will be tagged with: v$VERSION"
           
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: |
-            rpchan44/webapp-dev:$VERSION
-          labels: ${{ steps.meta.outputs.labels }}
+      - name: Build Docker image
+        run: |
+          docker build -t rpchan44/webapp-dev:$VERSION .
+        
+      - name: Push Docker image to DockerHub
+        run: |
+          docker rpchan44/webapp-dev:$VERSION
 
       - name: Check out the Kustomize repository
         uses: actions/checkout@v4
