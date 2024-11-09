@@ -35,14 +35,22 @@ jobs:
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
-
+            
+      - name: Get version number (increment commit count)
+        id: version
+        run: |
+          # Get the commit count and create a simple version number
+          VERSION=$(git rev-list --count HEAD)
+          echo "VERSION=v$VERSION" >> $GITHUB_ENV
+          echo "Docker image will be tagged with: v$VERSION"
+          
       - name: Build and push Docker image
         uses: docker/build-push-action@v3
         with:
           context: .
           push: true
           tags: |
-            rpchan44/webapp-dev:latest
+            rpchan44/webapp-dev:$VERSION
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Check out the Kustomize repository
