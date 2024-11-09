@@ -50,7 +50,7 @@ jobs:
         
       - name: Push Docker image to DockerHub
         run: |
-          docker rpchan44/webapp-dev:$VERSION
+          docker push rpchan44/webapp-dev:$VERSION
 
       - name: Check out the Kustomize repository
         uses: actions/checkout@v4
