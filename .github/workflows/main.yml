@@ -76,7 +76,12 @@ jobs:
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
           git diff --exit-code overlays/dev/apps.yaml || {
-            git add overlays/dev/apps.yaml
+          if [[ $GITHUB_REF == "refs/heads/main" ]]; then
+              git add overlays/prod/apps.yaml
+          else
+              git add overlays/dev/apps.yaml
+          fi
+          
             git commit -m "Release webapp-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}:${{ github.sha }}"
             git push origin main
           }
