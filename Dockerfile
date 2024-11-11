@@ -14,8 +14,8 @@ COPY app.py /app/app.py
 
 # Install any needed dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-RUN install mysql-connector-python
-RUN install redis
+RUN pip install mysql-connector-python
+RUN pip install redis
 
 EXPOSE 80
 
