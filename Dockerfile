@@ -14,7 +14,6 @@ COPY app.py /app/app.py
 
 # Install any needed dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install mysql-connector-python
 EXPOSE 80
 
 # Set environment variable based on the properties file
