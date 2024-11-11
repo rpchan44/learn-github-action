@@ -19,7 +19,7 @@ def load_config(config_file):
 app = Flask(__name__)
 
 # MySQL configuration
-app.config['MYSQL_HOST'] = 'dev-mysql-external'
+app.config['MYSQL_HOST'] = 'dev-mysql-external.development.svc.cluster.local'
 app.config['MYSQL_USER'] = 'demo'
 app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_DB'] = 'demo'
