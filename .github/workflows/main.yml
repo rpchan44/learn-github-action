@@ -78,7 +78,7 @@ jobs:
           git diff --exit-code overlays/${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}/apps.yaml || {
               git add overlays/${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}/apps.yaml
               git commit -m "Release webapp-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}:${{ github.sha }}"
-              git push origin ${{ github.ref == 'refs/heads/main' && 'main' || 'development' }}
+              git push origin main
           }
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
