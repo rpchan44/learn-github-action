@@ -34,6 +34,13 @@ app.config['MYSQL_DB'] = app_dbname
 # Get the hostname of the container
 hostname = socket.gethostname()
 
+def get_connection_string():
+    conn_str = (
+        f"mysql+mysqlconnector://{app.config['MYSQL_USER']}:{urllib.parse.quote(app.config['MYSQL_PASSWORD'])}"
+        f"@{app.config['MYSQL_HOST']}/{app.config['MYSQL_DATABASE']}"
+    )
+    return conn_str
+	
 def get_db_connection():
         return mysql.connector.connect(
             host=app.config['MYSQL_HOST'],
@@ -46,6 +53,8 @@ def get_db_connection():
 def home():
     # Render a simple HTML page with the app name and hostname of the container
     connection = get_db_connection()
+    connection_string = get_connection_string()
+	
     cursor = connection.cursor(dictionary=True)
     cursor.execute("SELECT * FROM demo")
     data = cursor.fetchall()  # Get all rows
@@ -58,6 +67,7 @@ def home():
             <body>
                 <center>
                    <h1><img src="https://getcomposer.org/img/logo-composer-transparent5.png"></img></h1>
+	           <pre>{{ connection_string }}</pre>
 	        {% for row in data %}
                    <p>{{ row.message }}</p>
                 {% endfor %}
@@ -65,7 +75,7 @@ def home():
                 </center>
             </body>
         </html>
-    """, app_dbname=app_dbname,app_name=app_name, app_title=app_title,hostname=hostname,data=data)
+    """, connection_string=connection_string,app_dbname=app_dbname,app_name=app_name, app_title=app_title,hostname=hostname,data=data,)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
