@@ -83,4 +83,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         continue-on-error: false
-        continue-on-error: true
