@@ -2,7 +2,9 @@ name: Publish Docker image and update k8s manifest
 
 on:
   push:
-    branches: ['main']
+    branches: 
+      - main
+      - development
 
 jobs:
   push_to_registry:
@@ -38,11 +40,19 @@ jobs:
       
       - name: Build Docker image
         run: |
-          docker build -t rpchan44/webapp-dev:${{ github.sha }} .
+          if [[ $GITHUB_REF == "refs/heads/main" ]]; then
+            docker build --build-arg ENVIRONMENT=production -t rpchan44/webapp-prod:${{ github.sha }} .
+          else
+            docker build --build-arg ENVIRONMENT=development -t rpchan44/webapp-dev:${{ github.sha }} .
+          fi
       
       - name: Push Docker image to DockerHub
         run: |
-          docker push rpchan44/webapp-dev:${{ github.sha }}
+          if [[ $GITHUB_REF == "refs/heads/main" ]]; then
+            docker push rpchan44/webapp-prod:${{ github.sha }}
+          else
+            docker push rpchan44/webapp-dev:${{ github.sha }}
+          fi
 
       - name: Check out the Kustomize repository
         uses: actions/checkout@v4
@@ -55,17 +65,21 @@ jobs:
       - name: Update Kustomize manifest with new image
         run: |
           echo "Updating kustomization.yaml to use the latest image tag"
-          
-          # Update the apps.yaml file with the correct image tag using sed
-          sed -i "s/webapp-dev:.*/webapp-dev:${{ github.sha }}/g" overlays/dev/apps.yaml
+          if [[ $GITHUB_REF == "refs/heads/main" ]]; then
+            sed -i "s/webapp-prod:.*/webapp-prod:${{ github.sha }}/g" overlays/prod/apps.yaml
+          else
+            sed -i "s/webapp-dev:.*/webapp-dev:${{ github.sha }}/g" overlays/dev/apps.yaml
+          fi
           
       - name: Commit changes to Kustomize repository
         run: |
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
-          git add overlays/dev/apps.yaml
-          git commit -m "Release webapp-dev:${{ github.sha }}"
-          git push origin main
+          git diff --exit-code overlays/${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}/apps.yaml || {
+              git add overlays/${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}/apps.yaml
+              git commit -m "Release webapp-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}:${{ github.sha }}"
+              git push origin ${{ github.ref == 'refs/heads/main' && 'main' || 'development' }}
+          }
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        continue-on-error: true
+        continue-on-error: false
