@@ -76,7 +76,7 @@ def home():
                 </center>
             </body>
         </html>
-    """, connection_string=connection_string,app_dbname=app_dbname,app_name=app_name, app_title=app_title,hostname=hostname,data=data,)
+    """,connection_string=connection_string,app_dbname=app_dbname,app_name=app_name, app_title=app_title,hostname=hostname,data=data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
