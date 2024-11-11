@@ -1,13 +1,14 @@
 # Use an official Python runtime as a parent image
 FROM python:3.9-slim
 
+ARG ENVIRONMENT=production
 # Set the working directory in the container
 WORKDIR /app
 ENV FLASK_RUN_PORT=80
 ENV FLASK_RUN_HOST=0.0.0.0
 
 # Copy the config file into the container at build time
-COPY config.properties /app/config.properties
+COPY config.${ENVIRONMENT}.properties /app/config.properties
 COPY requirements.txt /app/requirements.txt
 COPY app.py /app/app.py
 
