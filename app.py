@@ -1,6 +1,7 @@
 # app.py
 from flask import Flask, render_template_string
 import mysql.connector
+import urllib.parse 
 
 import os
 import socket  # Import socket library to get the hostname
