@@ -66,9 +66,9 @@ jobs:
         run: |
           echo "Updating kustomization.yaml to use the latest image tag"
           if [[ $GITHUB_REF == "refs/heads/main" ]]; then
-            sed -i '' "s/webapp-prod:.*/webapp-prod:${{ github.sha }}/g" overlays/prod/apps.yaml
+            sed -i "s/webapp-prod:.*/webapp-prod:${{ github.sha }}/g" overlays/prod/apps.yaml
           else
-            sed -i '' "s/webapp-dev:.*/webapp-dev:${{ github.sha }}/g" overlays/dev/apps.yaml
+            sed -i "s/webapp-dev:.*/webapp-dev:${{ github.sha }}/g" overlays/dev/apps.yaml
           fi
           
       - name: Commit changes to Kustomize repository
