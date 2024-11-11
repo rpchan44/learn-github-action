@@ -27,9 +27,9 @@ app_title = config.get('app_title', 'app_title')
 
 # MySQL configuration
 app.config['MYSQL_HOST'] = '192.168.99.4'
-app.config['MYSQL_USER'] = {{ app_dbname }}
+app.config['MYSQL_USER'] = 'demo'
 app.config['MYSQL_PASSWORD'] = 'password'
-app.config['MYSQL_DB'] = 'demo'
+app.config['MYSQL_DB'] = app_dbname
 
 # Get the hostname of the container
 hostname = socket.gethostname()
