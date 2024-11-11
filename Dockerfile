@@ -2,6 +2,11 @@
 FROM python:3.9-slim
 
 ARG ENVIRONMENT=production
+
+# Set environment variables to disable Python bytecode generation and enable unbuffered output
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+    
 # Set the working directory in the container
 WORKDIR /app
 ENV FLASK_RUN_PORT=80
@@ -17,12 +22,15 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install mysql-connector-python
 RUN pip install redis
 
-EXPOSE 80
-
 # Set environment variable based on the properties file
 # (You may want to modify app.py to read directly from the file)
 ENV FLASK_APP=app.py
 ENV CONFIG_FILE_PATH=/app/config.${ENVIRONMENT}.properties
 
 # Run the Flask app when the container starts
-CMD ["flask", "run"]
+#CMD ["flask", "run"]
+#EXPOSE 80
+
+# Command to run the application using Gunicorn for production
+EXPOSE 80
+CMD ["gunicorn", "-b", "0.0.0.0:80", "app:app"]
