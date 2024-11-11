@@ -18,19 +18,18 @@ def load_config(config_file):
 # Initialize Flask app
 app = Flask(__name__)
 
-# MySQL configuration
-app.config['MYSQL_HOST'] = '192.168.99.4'
-app.config['MYSQL_USER'] = 'demo'
-app.config['MYSQL_PASSWORD'] = 'password'
-app.config['MYSQL_DB'] = 'demo'
-
 # Load configuration from config.properties (optional)
 config_path = os.getenv('CONFIG_FILE_PATH', '/app/config.properties')
 config = load_config(config_path)
+app_dbname =  config.get('app_dbname', 'app_dbname')
 app_name = config.get('app_name', 'app_name')
 app_title = config.get('app_title', 'app_title')
 
-
+# MySQL configuration
+app.config['MYSQL_HOST'] = '192.168.99.4'
+app.config['MYSQL_USER'] = app_dbname
+app.config['MYSQL_PASSWORD'] = 'password'
+app.config['MYSQL_DB'] = 'demo'
 
 # Get the hostname of the container
 hostname = socket.gethostname()
@@ -66,7 +65,7 @@ def home():
                 </center>
             </body>
         </html>
-    """, app_name=app_name, app_title=app_title,hostname=hostname,data=data)
+    """, app_dbname=app_dbname,app_name=app_name, app_title=app_title,hostname=hostname,data=data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
