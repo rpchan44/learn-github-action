@@ -15,7 +15,7 @@ def load_config(config_file):
     return config
 
 # Initialize Flask app
-app = Flask(__name__)
+app = Flask(__name__,template_folder='../templates')
 
 # Load configuration from config.properties (optional)
 config_path = os.getenv('CONFIG_FILE_PATH', '/app/config.properties')
