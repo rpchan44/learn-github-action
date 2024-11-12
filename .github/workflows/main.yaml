@@ -55,17 +55,6 @@ jobs:
       - name: Log Docker version
         run: docker --version
 
-      - name: ensure cahing directory exist
-        run: mkdir /tmp/cache
-
-      - name: Cache Docker layers
-        uses: actions/cache@v3
-        with:
-          path: /tmp/cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-      
       - name: Build Docker image
         run: |
           if [[ $GITHUB_REF == "refs/heads/main" ]]; then
