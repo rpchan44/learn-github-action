@@ -97,9 +97,4 @@ jobs:
           }
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      - name: Commit formatting fix to repository
-        run: |
-          git add .github/workflows/main.yml pyproject.toml
-          git commit -m "Add Ruff linter to GitHub Actions"
-          git push origin ${{ github.ref == 'refs/heads/main' && 'main' || 'development' }}
-        continue-on-error: false
+          continue-on-error: false
