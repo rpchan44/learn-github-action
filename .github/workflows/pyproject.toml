@@ -1,11 +1,4 @@
 [tool.ruff]
-# Example configuration for Ruff
-
-# Select which categories of errors you want to check for
-select = ["E", "F", "W"]
-
-# Ignore certain errors (if any)
-ignore = ["E203"]
-
-# Maximum line length (for Ruff, this should be configured under `line-length`)
-line-length = 88
+lint.select = ["E", "F", "W"]    # Categories of lint errors to check
+lint.ignore = ["E203"]            # Errors to ignore
+line-length = 88                  # Maximum line length
