@@ -1,0 +1,14 @@
+<!-- templates/index.html -->
+<html>
+    <head><title>{{ app_title }}</title></head>
+    <body>
+        <center>
+            <h1><img src="https://getcomposer.org/img/logo-composer-transparent5.png" alt="Composer Logo"></h1>
+            {% for row in data %}
+                <p>{{ row.message }}</p>
+            {% endfor %}
+            <p>{{ app_name }} served from {{ hostname }}</p>
+        </center>
+    </body>
+</html>
+

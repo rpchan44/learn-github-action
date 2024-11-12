@@ -50,20 +50,13 @@ def home():
     cursor.close()
     connection.close()
 
-    return render_template_string("""
-        <html>
-            <head><title>{{ app_title }}</title></head>
-            <body>
-                <center>
-                   <h1><img src="https://getcomposer.org/img/logo-composer-transparent5.png"></img></h1>
-	        {% for row in data %}
-                   <p>{{ row.message }}</p>
-                {% endfor %}
-                   <p>{{ app_name }} served from {{ hostname }}</p>
-                </center>
-            </body>
-        </html>
-    """,app_dbname=app_dbname,app_name=app_name, app_title=app_title,hostname=hostname,data=data)
+    return render_template_string(
+        "index.html",
+        app_dbname=app_dbname,
+        app_name=app_name,
+        app_title=app_title,
+        hostname=hostname,
+        data=data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
