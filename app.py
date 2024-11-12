@@ -51,7 +51,7 @@ def home():
     connection.close()
 
     return render_template(
-        'index.html',
+        'templates/index.html',
         app_dbname=app_dbname,
         app_name=app_name,
         app_title=app_title,
