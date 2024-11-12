@@ -26,10 +26,19 @@ jobs:
           python -m pip install --upgrade pip
           pip install ruff  # Install Ruff
 
-      - name: Performing code formatting
+      - name: Performing code linting && formatting
         run: |
           ruff check .
           ruff format .
+
+      - name: Commit and push changes (if any)
+        if: success() && steps.format.outputs.changed == 'true'
+        run: |
+          git config --global user.name "rpchan44"
+          git config --global user.email "ronaldopchan@outlook.com"
+          git add .
+          git commit -m "Apply code formatting"
+          git push ${{ github.ref == 'refs/heads/main' && 'main' || 'development' }}
           
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
