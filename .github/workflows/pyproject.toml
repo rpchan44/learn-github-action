@@ -1,4 +1,11 @@
 [tool.ruff]
+# Example configuration for Ruff
+
+# Select which categories of errors you want to check for
 select = ["E", "F", "W"]
+
+# Ignore certain errors (if any)
 ignore = ["E203"]
-max-line-length = 88
+
+# Maximum line length (for Ruff, this should be configured under `line-length`)
+line-length = 88
