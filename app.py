@@ -50,7 +50,7 @@ def home():
     cursor.close()
     connection.close()
 
-    return render_template_string(
+    return render_template(
         "index.html",
         app_dbname=app_dbname,
         app_name=app_name,
