@@ -16,7 +16,7 @@ ENV FLASK_RUN_HOST=0.0.0.0
 COPY config.${ENVIRONMENT}.properties /app/config.${ENVIRONMENT}.properties
 COPY requirements.txt /app/requirements.txt
 COPY app.py /app/app.py
-
+COPY templates /app/
 # Install any needed dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install mysql-connector-python
