@@ -74,6 +74,7 @@ jobs:
       - name: Check out the Kustomize repository
         uses: actions/checkout@v4
         with:
+          ref: development
           repository: rpchan44/k8s-control
           token: ${{ secrets.GH_TOKEN }}
           path: ''
