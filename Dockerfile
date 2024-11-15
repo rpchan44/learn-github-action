@@ -25,12 +25,7 @@ RUN pip install redis
 
 # Set environment variable based on the properties file
 # (You may want to modify app.py to read directly from the file)
-ENV FLASK_APP=app.py
 ENV CONFIG_FILE_PATH=/app/config.${ENVIRONMENT}.properties
-
-# Run the Flask app when the container starts
-#CMD ["flask", "run"]
-#EXPOSE 80
 
 # Command to run the application using Gunicorn for production
 EXPOSE 80
