@@ -20,15 +20,21 @@ app = Flask(__name__)
 # Load configuration from config.properties (optional)
 config_path = os.getenv('CONFIG_FILE_PATH', '/app/config.properties')
 config = load_config(config_path)
-app_dbname =  config.get('app_dbname', 'app_dbname')
 app_name = config.get('app_name', 'app_name')
 app_title = config.get('app_title', 'app_title')
 
+vault_path='/vault/secrets/db/dbcred'
+config = load_config(vault_path)
+db_host = config('DB_HOST','DB_HOST')
+db_name = config('DB_NAME','DB_NAME')
+db_user = config('DB_USERNAME','DB_USERNAME')
+db_password = config('DB_PASSWORD','DB_PASSWORD')
+
 # MySQL configuration
-app.config['MYSQL_HOST'] = '192.168.99.4'
-app.config['MYSQL_USER'] = 'demo'
-app.config['MYSQL_PASSWORD'] = 'password'
-app.config['MYSQL_DB'] = app_dbname
+app.config['MYSQL_HOST'] = db_host
+app.config['MYSQL_USER'] = db_user
+app.config['MYSQL_PASSWORD'] = db_password
+app.config['MYSQL_DB'] = db_name
 
 # Get the hostname of the container
 hostname = socket.gethostname()
