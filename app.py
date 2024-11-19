@@ -25,10 +25,10 @@ app_title = config.get('app_title', 'app_title')
 
 vault_path='/vault/secrets/dbcred'
 config = load_config(vault_path)
-db_host = config('DB_HOST','DB_HOST')
-db_name = config('DB_NAME','DB_NAME')
-db_user = config('DB_USERNAME','DB_USERNAME')
-db_password = config('DB_PASSWORD','DB_PASSWORD')
+db_host = config('DB_HOST')
+db_name = config('DB_NAME')
+db_user = config('DB_USERNAME')
+db_password = config('DB_PASSWORD')
 
 # MySQL configuration
 app.config['MYSQL_HOST'] = db_host
