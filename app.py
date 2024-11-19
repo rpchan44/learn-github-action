@@ -23,11 +23,18 @@ config = load_config(config_path)
 app_name = config.get('app_name', 'app_name')
 app_title = config.get('app_title', 'app_title')
 
+vault_path='/vault/secrets/dbcred'
+config = load_config(vault_path)
+db_host = config.get('DB_HOST')
+db_name = config.get('DB_NAME')
+db_user = config.get('DB_USERNAME')
+db_password = config.get('DB_PASSWORD')
+
 # MySQL configuration
-app.config['MYSQL_HOST'] = '192.168.99.4'
-app.config['MYSQL_USER'] = 'demo'
-app.config['MYSQL_PASSWORD'] = 'password'
-app.config['MYSQL_DB'] = 'development'
+app.config['MYSQL_HOST'] = db_host
+app.config['MYSQL_USER'] = db_user
+app.config['MYSQL_PASSWORD'] = db_password
+app.config['MYSQL_DB'] = db_name
 
 # Get the hostname of the container
 hostname = socket.gethostname()
@@ -51,7 +58,7 @@ def home():
 
     return render_template(
         'index.html',
-        app_dbname='development',
+        app_dbname=db_name,
         app_name=app_name,
         app_title=app_title,
         hostname=hostname,
