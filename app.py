@@ -58,7 +58,7 @@ def home():
 
     return render_template(
         'index.html',
-        app_dbname=app_dbname,
+        app_dbname=db_name,
         app_name=app_name,
         app_title=app_title,
         hostname=hostname,
