@@ -23,7 +23,7 @@ config = load_config(config_path)
 app_name = config.get('app_name', 'app_name')
 app_title = config.get('app_title', 'app_title')
 
-vault_path='/app/dbcred'
+vault_path='/vault/secrets/dbcred'
 config = load_config(vault_path)
 db_host = config.get('DB_HOST')
 db_name = config.get('DB_NAME')
