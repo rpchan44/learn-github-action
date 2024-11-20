@@ -8,12 +8,12 @@ ENV PYTHONUNBUFFERED=1 \
 # Set the working directory in the container
 WORKDIR /app
 
-# Declare build argument for environment
+# Declare build argument for environment (default to production)
 ARG ENVIRONMENT=production
 
-# Copy the corresponding config file based on the environment argument
-COPY config.${ENVIRONMENT}.properties /app/config.${ENVIRONMENT}.properties
+# Copy the requirements and application files
 COPY requirements.txt /app/requirements.txt
+COPY config.${ENVIRONMENT}.properties /app/config.${ENVIRONMENT}.properties
 COPY app.py /app/app.py
 COPY templates /app/templates
 
@@ -32,7 +32,7 @@ ENV PYTHONUNBUFFERED=1 \
     FLASK_RUN_HOST=0.0.0.0 \
     CONFIG_FILE_PATH=/app/config.${ENVIRONMENT}.properties
 
-# Set the working directory
+# Set the working directory in the final container
 WORKDIR /app
 
 # Copy only the necessary files from the builder stage (application code and dependencies)
