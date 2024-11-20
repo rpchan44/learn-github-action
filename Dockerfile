@@ -8,9 +8,12 @@ ENV PYTHONUNBUFFERED=1 \
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the requirements and application files
-COPY requirements.txt /app/requirements.txt
+# Declare build argument for environment
+ARG ENVIRONMENT=production
+
+# Copy the corresponding config file based on the environment argument
 COPY config.${ENVIRONMENT}.properties /app/config.${ENVIRONMENT}.properties
+COPY requirements.txt /app/requirements.txt
 COPY app.py /app/app.py
 COPY templates /app/templates
 
