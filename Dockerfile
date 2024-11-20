@@ -23,7 +23,7 @@ RUN pip install mysql-connector-python
 RUN pip install redis
 
 # Stage 2: Final Stage (runtime image)
-FROM python:3.9-slim
+FROM python:3.9-slim as runtime
 
 # Set environment variables for the runtime environment
 ENV PYTHONUNBUFFERED=1 \
@@ -36,7 +36,7 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /app
 
 # Copy only the necessary files from the builder stage (application code and dependencies)
-COPY --from=builder /app /app
+COPY --from=builder /app/. /app
 
 # Expose the port the app will run on
 EXPOSE 80
