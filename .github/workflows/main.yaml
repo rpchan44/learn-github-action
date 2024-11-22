@@ -28,8 +28,8 @@ jobs:
 
       - name: Performing code linting && formatting
         run: |
-          ruff check . --fix
-          ruff format . --fix
+          ruff --fix check . 
+          ruff --fix format . 
 
       - name: Commit and push changes (if any)
         if: success() && steps.format.outputs.changed == 'true'
