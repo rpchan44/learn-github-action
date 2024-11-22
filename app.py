@@ -50,8 +50,7 @@ except KeyError as e:
     print(f"Configuration error: Missing key {e}")
     # Optionally, log the error or raise an exception depending on your requirements
 except Exception as e:
-
-    logger.info("webapp is running locally not in k8s vault is not loaded!")
+    logger.info("webapp is running locally not in k8s vault is not loaded! {e}")
    
 
 # Get the hostname of the container
