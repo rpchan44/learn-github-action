@@ -54,9 +54,9 @@ try:
     app.config['MYSQL_PASSWORD'] = db_password
     app.config['MYSQL_DB'] = db_name
 
-except KeyError as e:
+except KeyError:
     # Handle case where a key is missing from the config dictionary
-    logging.info("Configuration error: Missing key {e}")
+    logging.info("Configuration error: Missing key(s)")
     # Optionally, log the error or raise an exception depending on your requirements
 except Exception: 
     logging.info("Webapp is running locally not in k8s vault is not loaded!")
