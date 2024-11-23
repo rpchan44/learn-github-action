@@ -59,8 +59,10 @@ jobs:
         run: |
           if [[ $GITHUB_REF == "refs/heads/main" ]]; then
             docker build --build-arg ENVIRONMENT=production -t rpchan44/webapp-prod:${{ github.sha }} .
+            docker build --build-arg ENVIRONMENT=production -t rpchan44/webapp-prod-canary:${{ github.sha }} .
           else
             docker build --build-arg ENVIRONMENT=development -t rpchan44/webapp-dev:${{ github.sha }} .
+            docker build --build-arg ENVIRONMENT=development -t rpchan44/webapp-dev-canary:${{ github.sha }} .
           fi
       
       - name: Push Docker image to DockerHub
