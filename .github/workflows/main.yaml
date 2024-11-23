@@ -67,8 +67,10 @@ jobs:
         run: |
           if [[ $GITHUB_REF == "refs/heads/main" ]]; then
             docker push rpchan44/webapp-prod:${{ github.sha }}
+            docker push rpchan44/webapp-prod-canary:${{ github.sha }}
           else
             docker push rpchan44/webapp-dev:${{ github.sha }}
+            docker push rpchan44/webapp-dev-canary:${{ github.sha }}
           fi
 
       - name: Check out the Kustomize repository
