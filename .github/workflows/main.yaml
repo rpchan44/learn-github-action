@@ -6,8 +6,7 @@ on:
       - '**/*.py'  # Run on any Python file change
   push:
     branches: 
-      - main
-      - development
+      - rolling-update
 
 jobs:
    push_to_registry:
