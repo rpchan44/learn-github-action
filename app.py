@@ -93,6 +93,10 @@ def home():
         hostname=hostname,
         data=data)
 
+@app.route('/health')
+def probe:
+    return 'Ok', 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
