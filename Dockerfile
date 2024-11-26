@@ -28,10 +28,9 @@ COPY . /app/
 RUN pip install --no-index --find-links=/wheels -r /app/requirements.txt
 RUN opentelemetry-bootstrap --action=install
 ENV CONFIG_FILE_PATH=/app/config.${ENVIRONMENT}.properties
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_PORT=80
+EXPOSE 80
 WORKDIR /app
 # Expose port and define the command for Gunicorn
 EXPOSE 80
 # Run the application using OpenTelemetry instrumentation
-CMD [ "opentelemetry-instrument", "flask", "run", "--host=0.0.0.0" ]
+CMD ["gunicorn", "app:app", "-c", "gunicorn_config.py"]

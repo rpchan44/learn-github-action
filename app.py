@@ -28,10 +28,6 @@ logging.basicConfig(
     datefmt='%Y-%m-%d %H:%M:%S'  # Custom date format
 )
 
-# Example log message
-logging.info("Booting worker with pid: 6")
-
-
 # Load configuration from config.properties (optional)
 config_path = os.getenv('CONFIG_FILE_PATH', '/app/config.properties')
 config = load_config(config_path)
