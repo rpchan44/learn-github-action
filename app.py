@@ -5,6 +5,7 @@ import logging
 import socket  # Import socket library to get the hostname
 from opentelemetry import trace
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
+from opentelemetry.instrumentation.mysql import MySQLInstrumentor
 
 # Function to load configuration from a properties file (optional)
 def load_config(config_file):
@@ -19,6 +20,7 @@ def load_config(config_file):
 # Initialize Flask app
 app = Flask(__name__)
 FlaskInstrumentor().instrument_app(app)
+MySQLInstrumentor().instrument()
 tracer = trace.get_tracer(__name__)
 
 # Set up logging configuration with timestamp, process id, and log level
