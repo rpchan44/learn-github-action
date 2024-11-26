@@ -22,18 +22,16 @@ FROM python:3.11-alpine
 
 ARG ENVIRONMENT=production
 
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1
-
 COPY --from=builder /app/wheels /wheels
 
 COPY . /app/
 RUN pip install --no-index --find-links=/wheels -r /app/requirements.txt
-
+RUN opentelemetry-bootstrap --action=install
 ENV CONFIG_FILE_PATH=/app/config.${ENVIRONMENT}.properties
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_PORT=80
 WORKDIR /app
-
 # Expose port and define the command for Gunicorn
 EXPOSE 80
-CMD ["gunicorn", "--bind", "0.0.0.0:80", "app:app"]
-
+# Run the application using OpenTelemetry instrumentation
+CMD [ "opentelemetry-instrument", "flask", "run", "--host=0.0.0.0" ]
