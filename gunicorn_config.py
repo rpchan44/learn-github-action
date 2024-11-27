@@ -1,4 +1,5 @@
 import logging
+from custom_logger import CustomLogger
 from opentelemetry import trace
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.sdk.resources import Resource
@@ -18,6 +19,7 @@ errorlog = "-"
 loglevel = "info"
 accesslog = "-"
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
+logger_class = CustomLogger
 
 # Custom logging format
 log_format = '[%(asctime)s] [%(process)d] [%(levelname)s] %(message)s'
