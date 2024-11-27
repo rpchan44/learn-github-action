@@ -1,5 +1,5 @@
 from opentelemetry import trace
-from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import (
+from opentelemetry.exporter.otlp.proto.http.trace_exporter import (
     OTLPSpanExporter,
 )
 from opentelemetry.sdk.resources import Resource
@@ -30,6 +30,6 @@ def post_fork(server, worker):
     trace.set_tracer_provider(TracerProvider(resource=resource))
 
     span_processor = BatchSpanProcessor(
-        OTLPSpanExporter(endpoint="collector.linkerd-jaeger:4317", insecure=True)
+        OTLPSpanExporter(endpoint="collector.linkerd-jaeger:4318", insecure=True)
     )
     trace.get_tracer_provider().add_span_processor(span_processor)
