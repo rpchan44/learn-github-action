@@ -19,8 +19,12 @@ loglevel = "info"
 accesslog = "-"
 access_log_format = '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
 
-# Set up basic logging
-logging.basicConfig(level=logging.INFO)
+# Custom logging format
+log_format = '[%(asctime)s] [%(process)d] [%(levelname)s] %(message)s'
+date_format = '%Y-%m-%d %H:%M:%S %z'
+
+# Set up logging with custom format
+logging.basicConfig(level=logging.INFO, format=log_format, datefmt=date_format)
 logger = logging.getLogger(__name__)
 
 # Function to configure and return the tracer provider
@@ -58,7 +62,7 @@ def configure_span_exporter(tracer_provider: TracerProvider, endpoint: str, secu
 # Post-fork worker setup (this gets called after each worker is forked in Gunicorn)
 def post_fork(server, worker):
     try:
-        logger.info("Worker spawned (pid: %s)", worker.pid)
+        logger.info("Booting worker with pid: %s", worker.pid)
         
         # Set up the OpenTelemetry tracer provider and exporter
         service_name = "dev-webapp"
