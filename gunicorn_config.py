@@ -30,6 +30,6 @@ def post_fork(server, worker):
     trace.set_tracer_provider(TracerProvider(resource=resource))
 
     span_processor = BatchSpanProcessor(
-        OTLPSpanExporter(endpoint="collector.linkerd-jaeger:55678", insecure=False)
+        OTLPSpanExporter(endpoint="collector.linkerd-jaeger:55678", insecure=True)
     )
     trace.get_tracer_provider().add_span_processor(span_processor)
