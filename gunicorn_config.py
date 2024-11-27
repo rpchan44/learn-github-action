@@ -1,5 +1,7 @@
 from opentelemetry import trace
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPHTTPSpanExporter
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import (
+    OTLPSpanExporter,
+)
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
@@ -27,9 +29,7 @@ def post_fork(server, worker):
     resource = Resource.create(attributes={"service.name": "dev-webapp"})
     trace.set_tracer_provider(TracerProvider(resource=resource))
 
-    # Use OTLP HTTP exporter
     span_processor = BatchSpanProcessor(
-        OTLPHTTPSpanExporter(endpoint="http://collector.linkerd-jaeger:4318", insecure=True)
+        OTLPSpanExporter(endpoint="collector.linkerd-jaeger:4317", insecure=True)
     )
     trace.get_tracer_provider().add_span_processor(span_processor)
-
