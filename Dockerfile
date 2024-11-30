@@ -21,6 +21,8 @@ RUN pip wheel -r requirements.txt --wheel-dir=/app/wheels
 FROM python:3.11-alpine
 
 ARG ENVIRONMENT=production
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 COPY --from=builder /app/wheels /wheels
 
