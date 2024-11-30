@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import mysql.connector
 import os
 import logging
@@ -6,8 +6,17 @@ import socket  # Import socket library to get the hostname
 from opentelemetry import trace
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.mysql import MySQLInstrumentor
+from prometheus_client import Counter, Histogram, generate_latest, REGISTRY
+import time
 
 app = Flask(__name__)
+
+REQUEST_COUNT = Counter(
+    'webapp_requests_total', 'Total number of requests received', ['method', 'endpoint']
+)
+REQUEST_LATENCY = Histogram(
+    'webapp_request_latency_seconds', 'Histogram of request latencies', ['method', 'endpoint']
+)
 
 # Function to load configuration from a properties file (optional)
 def load_config(config_file):
@@ -75,6 +84,21 @@ def get_db_connection():
             database=app.config['MYSQL_DB']
         )
 
+@app.before_request
+def before_request():
+    request.start_time = time.time()
+
+@app.after_request
+def after_request(response):
+    # Track request count
+    REQUEST_COUNT.labels(method=request.method, endpoint=request.endpoint).inc()
+    
+    # Track request latency
+    duration = time.time() - request.start_time
+    REQUEST_LATENCY.labels(method=request.method, endpoint=request.endpoint).observe(duration)
+    
+    return response
+
 @app.route('/')
 def home():
     # Render a simple HTML page with the app name and hostname of the container
@@ -92,6 +116,10 @@ def home():
         app_title=app_title,
         hostname=hostname,
         data=data)
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest(REGISTRY)
 
 @app.route('/health')
 def probe():
