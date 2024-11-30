@@ -7,7 +7,6 @@ from opentelemetry import trace
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.mysql import MySQLInstrumentor
 from prometheus_client import Counter, Histogram, generate_latest, REGISTRY
-from prometheus_client.exposition import basic_auth_handler
 import time
 
 app = Flask(__name__)
