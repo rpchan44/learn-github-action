@@ -23,7 +23,7 @@ MYGAUGE = Gauge('hysteris','sample gauge')
 
 def update_gauge():
 
-   MYGAUGE.set(random(1,100))
+   MYGAUGE.set(random.uniform(1,100))
 
 # Function to load configuration from a properties file (optional)
 def load_config(config_file):
@@ -130,8 +130,8 @@ def metrics():
 
 @app.route('/health')
 def probe():
-    return 'Ok', 200
     update_gauge()
+    return 'Ok', 200
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
