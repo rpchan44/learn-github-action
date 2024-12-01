@@ -6,8 +6,9 @@ import socket  # Import socket library to get the hostname
 from opentelemetry import trace
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.mysql import MySQLInstrumentor
-from prometheus_client import Counter, Histogram, generate_latest, REGISTRY
+from prometheus_client import Gauge, Counter, Histogram, generate_latest, REGISTRY
 import time
+import random
 
 app = Flask(__name__)
 
@@ -17,6 +18,12 @@ REQUEST_COUNT = Counter(
 REQUEST_LATENCY = Histogram(
     'webapp_request_latency_seconds', 'Histogram of request latencies', ['method', 'endpoint']
 )
+
+MYGAUGE = Gauge('hysteris','sample gauge')
+
+def update_gauge():
+
+   MYGAUGE.set(random(1,100))
 
 # Function to load configuration from a properties file (optional)
 def load_config(config_file):
@@ -70,9 +77,9 @@ except KeyError:
     # Handle case where a key is missing from the config dictionary
     logging.info("Configuration error: Missing key(s)")
     # Optionally, log the error or raise an exception depending on your requirements
-except Exception: 
+except Exception:
     logging.info("Webapp is running locally not in k8s vault is not loaded!")
-   
+
 
 # Get the hostname of the container
 hostname = socket.gethostname()
@@ -92,11 +99,11 @@ def before_request():
 def after_request(response):
     # Track request count
     REQUEST_COUNT.labels(method=request.method, endpoint=request.endpoint).inc()
-    
+
     # Track request latency
     duration = time.time() - request.start_time
     REQUEST_LATENCY.labels(method=request.method, endpoint=request.endpoint).observe(duration)
-    
+
     return response
 
 @app.route('/')
@@ -124,6 +131,7 @@ def metrics():
 @app.route('/health')
 def probe():
     return 'Ok', 200
+    update_gauge()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
