@@ -19,7 +19,7 @@ REQUEST_LATENCY = Histogram(
     'webapp_request_latency_seconds', 'Histogram of request latencies', ['method', 'endpoint']
 )
 
-MYGAUGE = Gauge('hysteris','sample gauge')
+MYGAUGE = Gauge('webapp_hysteris','Just another data to crunch')
 
 def update_gauge():
 
