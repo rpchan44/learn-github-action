@@ -1,4 +1,3 @@
-import os
 def load_config(config_file):
     config = {}
     with open(config_file, 'r') as f:
