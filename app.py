@@ -7,6 +7,7 @@ from opentelemetry import trace
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.mysql import MySQLInstrumentor
 from prometheus_client import Gauge, Counter, Histogram, generate_latest, REGISTRY
+from myutils import load_config
 import time
 import random
 
@@ -24,16 +25,6 @@ MYGAUGE = Gauge('webapp_hysteris','Just another data to crunch')
 def update_gauge():
 
    MYGAUGE.set(random.uniform(1,100))
-
-# Function to load configuration from a properties file (optional)
-def load_config(config_file):
-    config = {}
-    with open(config_file, 'r') as f:
-        for line in f:
-            if line.strip() and not line.startswith('#'):
-                key, value = line.strip().split('=', 1)
-                config[key.strip()] = value.strip()
-    return config
 
 FlaskInstrumentor().instrument_app(app)
 MySQLInstrumentor().instrument()
