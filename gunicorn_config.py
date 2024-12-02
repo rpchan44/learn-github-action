@@ -65,7 +65,7 @@ def post_fork(server, worker):
         logger.info("Booting worker with pid: %s", worker.pid)
         config_path = os.getenv('CONFIG_FILE_PATH', '/app/config.properties')
         config = load_config(config_path)
-        linkerd = config.get('linkerd', False)
+        linkerd = config.get('linkerd', 'linkerd')
 
         if linkerd:
            # Set up the OpenTelemetry tracer provider and exporter
