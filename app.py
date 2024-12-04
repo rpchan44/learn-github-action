@@ -7,7 +7,7 @@ from opentelemetry import trace
 from opentelemetry.instrumentation.flask import FlaskInstrumentor
 from opentelemetry.instrumentation.mysql import MySQLInstrumentor
 from prometheus_client import Gauge, Counter, Histogram, generate_latest, REGISTRY
-from myutils import load_config
+from myutils import load_config, version
 import time
 import random
 
@@ -106,13 +106,14 @@ def home():
     data = cursor.fetchall()  # Get all rows
     cursor.close()
     connection.close()
-
+    build = version()
     return render_template(
         'index.html',
         app_dbname=db_name,
         app_name=app_name,
         app_title=app_title,
         hostname=hostname,
+        build=build,
         data=data)
 
 @app.route('/metrics')
