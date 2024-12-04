@@ -29,23 +29,26 @@ jobs:
           python-version: '3.12'  # Choose your preferred Python version
 
       - name: Read current version
-        id: version
+        id: read_version
         run: |
           version=$(cat version.txt)
           echo "Current version: $version"
-          echo "current_version=$version" >> $GITHUB_ENV
+          echo "current_version=$version" >> $GITHUB_ENV  # Set current_version using GITHUB_ENV
 
-      # Increment the patch version 
       - name: Increment version
-        id: increment
+        id: increment_version
         run: |
-          current_version=${{ steps.version.outputs.current_version }}
+          current_version=${{ env.current_version }}
           IFS='.' read -r major minor patch <<< "$current_version"
           new_patch=$((patch + 1))
           new_version="$major.$minor.$new_patch"
           echo "New version: $new_version"
-          echo "$new_version" > version.txt
-          echo "new_version=$new_version" >> $GITHUB_ENV
+          echo "new_version=$new_version" >> $GITHUB_ENV  # Set new version in GITHUB_ENV
+
+      - name: Build Project with New Version
+        run: |
+          echo "Building project with version ${{ env.new_version }}"
+
       - name: Commit version increment
         run: |
           git config --global user.name "rpchan44"
