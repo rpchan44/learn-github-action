@@ -54,7 +54,7 @@ jobs:
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
           git add version.txt
-          git commit -m "Increment version to ${{ steps.increment.outputs.new_version }}"
+          git commit -m "Increment version to ${{ env.new_version }}"
           git push
 
       - name: Install dependencies
