@@ -33,7 +33,7 @@ jobs:
         run: |
           version=$(cat version.txt)
           echo "Current version: $version"
-          echo "::set-output name=current_version::$version"
+          echo "current_version=$version" >> $GITHUB_ENV
 
       # Increment the patch version 
       - name: Increment version
@@ -45,7 +45,7 @@ jobs:
           new_version="$major.$minor.$new_patch"
           echo "New version: $new_version"
           echo "$new_version" > version.txt
-          echo "::set-output name=new_version::$new_version"
+          echo "new_version=$new_version" >> $GITHUB_ENV
       - name: Commit version increment
         run: |
           git config --global user.name "rpchan44"
