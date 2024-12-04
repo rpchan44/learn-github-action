@@ -6,7 +6,7 @@ on:
       - '**/*.py'  # Run on any Python file change
   push:
     branches: 
-      - rolling-updates
+      - rolling-update
 
 jobs:
    push_to_registry:
@@ -57,7 +57,11 @@ jobs:
           git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-
+      
+      - name: Prevent workflow trigger from itself
+        if: github.actor != 'github-actions[bot]'
+        run: echo "This commit won't trigger the workflow"
+      
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
