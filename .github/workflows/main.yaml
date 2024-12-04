@@ -42,7 +42,7 @@ jobs:
           IFS='.' read -r major minor patch <<< "$current_version"
           new_patch=$((patch + 1))
           new_version="$major.$minor.$new_patch"
-          echo "New version: $new_version"
+          echo "$new_version" > version.txt
           echo "new_version=$new_version" >> $GITHUB_ENV  # Set new version in GITHUB_ENV
       
       - name: Set up Git
