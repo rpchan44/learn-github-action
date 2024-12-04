@@ -44,6 +44,19 @@ jobs:
           new_version="$major.$minor.$new_patch"
           echo "New version: $new_version"
           echo "new_version=$new_version" >> $GITHUB_ENV  # Set new version in GITHUB_ENV
+      
+      - name: Set up Git
+        run: |
+          git config --global user.name "rpchan44"
+          git config --global user.email "ronaldopchan@outlook.com"
+      
+      - name: Commit version.txt and push
+        run: |
+          git add version.txt
+          git commit -m "Update version to ${{ env.new_version }}"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD:${{ github.ref }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Install dependencies
         run: |
@@ -123,9 +136,9 @@ jobs:
           git config --global user.name "rpchan44"
           git config --global user.email "ronaldopchan@outlook.com"
           git diff --exit-code overlays/${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}/apps.yaml || {
-              git add overlays/${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}/apps.yaml
-              git commit -m "Release webapp-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}:${{ github.sha }}"
-              git push origin feature/canary-argo
+          git add overlays/${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}/apps.yaml
+          git commit -m "Release webapp-${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}:${{ github.sha }}"
+          git push origin feature/canary-argo
           }
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
