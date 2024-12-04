@@ -20,6 +20,33 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.12'  # Choose your preferred Python version
+
+      - name: Read current version
+        id: version
+        run: |
+          version=$(cat version.txt)
+          echo "Current version: $version"
+          echo "::set-output name=current_version::$version"
+
+      # Increment the patch version 
+      - name: Increment version
+        id: increment
+        run: |
+          current_version=${{ steps.version.outputs.current_version }}
+          IFS='.' read -r major minor patch <<< "$current_version"
+          new_patch=$((patch + 1))
+          new_version="$major.$minor.$new_patch"
+          echo "New version: $new_version"
+          echo "$new_version" > version.txt
+          echo "::set-output name=new_version::$new_version"
+      - name: Commit version increment
+        run: |
+          git config --global user.name "rpchan44"
+          git config --global user.email "ronaldopchan@outlook.com"
+          git add version.txt
+          git commit -m "Increment version to ${{ steps.increment.outputs.new_version }}"
+          git push
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -63,6 +90,7 @@ jobs:
             docker build --build-arg ENVIRONMENT=development -t rpchan44/webapp-dev:${{ github.sha }} .
             docker build --build-arg ENVIRONMENT=development -t rpchan44/webapp-dev-canary:${{ github.sha }} .
           fi
+          echo "Building project with version ${{ steps.increment.outputs.new_version }}"
       
       - name: Push Docker image to DockerHub
         run: |
