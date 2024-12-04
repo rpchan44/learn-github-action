@@ -16,7 +16,10 @@ jobs:
     steps:
       - name: Check out the repo with Dockerfile
         uses: actions/checkout@v4
-        token: ${{ secrets.GH_TOKEN }}
+        with:
+          ref: rolling-update
+          repository: rpchan44/learn-github-action
+          token: ${{ secrets.GH_TOKEN }}
           path: ''
           show-progress: true
 
