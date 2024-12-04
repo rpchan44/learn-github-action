@@ -9,5 +9,5 @@ def load_config(config_file):
 
 def version():
     with open('version.txt', 'r') as file:
-    content = file.read()  # Reads the entire file content
+        content = file.read()  # Reads the entire file content
     return content
